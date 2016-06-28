@@ -9,7 +9,6 @@ default 0
 
 #----------------------------------------------------
 title SystemRescueCD Menu
-#fallback 3
 find --set-root --ignore-floppies --ignore-cd /grub/sysresccd/menu.lst
 configfile /grub/sysresccd/menu.lst
 savedefault
@@ -17,7 +16,7 @@ savedefault
 #----------------------------------------------------
 title Super Grub2 Disk Menu
 #fallback 3
-set isofile=super_grub2_disk_hybrid_2.02s3.iso
+set isofile=super_grub2_disk_hybrid_2.02s4_sysrescuecd.iso
 set isopath=/grub/super_grub2_disk
 find --set-root --ignore-floppies --ignore-cd %isopath%/%isofile%
 map %isopath%/%isofile% (hd32) || map --mem %isopath%/%isofile% (hd32)
@@ -26,10 +25,10 @@ chainloader (hd32)
 savedefault
 
 #----------------------------------------------------
-title Acronis 2014
-set isofile=acronis2014.iso
-find --set-root --ignore-floppies --ignore-cd /boot-isos/%isofile%
-map /boot-isos/%isofile% (hd32) || map --mem /boot-isos/%isofile% (hd32)
+title netboot.xyz
+set isofile=/boot-isos/netboot.xyz-dhcp.iso
+find --set-root --ignore-floppies --ignore-cd %isofile%
+map %isofile% (hd32) || map --mem %isofile% (hd32)
 map --hook
 chainloader (hd32)
 
