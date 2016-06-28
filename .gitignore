@@ -1,2 +1,4 @@
 *.default
 grub4dos/
+wee/bin/*
+wee/doc/*
