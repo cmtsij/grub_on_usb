@@ -1,11 +1,9 @@
 !BAT
 
 set findfile=(md)0x19000+0x4
-debug normal && find > %findfile%
+debug normal && find > %findfile% && debug off
 
-debug off
 set tempfile=(md)0x1A000+0x4
-
 echo root (bd) > %tempfile%
 echo color light-gray/blue light-blue/yellow dark-gray/blue >> %tempfile%
 echo timeout 10 >> %tempfile%
@@ -27,8 +25,10 @@ set /a j=%j_begin%
 set root=(hd%i%,%j%)
 cat --locate=%root% %findfile% > nil || goto :skip_gen
 
-call :os_ver %root%
-echo title %root% - %OS% >> %tempfile%
+echo Probing: %root%
+call :get_os %root%
+
+echo title %root% - %PARTTYPE% - %OS% >> %tempfile%
 echo root %root%         >> %tempfile%
 echo chainloader +1      >> %tempfile%
 echo savedefault         >> %tempfile%
@@ -52,29 +52,42 @@ goto :EOF
 #
 
 ##########################
-## get os_ver by (hdx,y)
+## get os version by (hdx,y)
 ##########################
-:os_ver
+:get_os
 set root=%1
-set OS=
 
+set PARTTYPE=[        ]
+echo Probing PARTTYPE on %root%
+set partfile=(md)0x1B000+0x4
+debug normal && parttype %root% > %partfile% && debug off
+cat --locate=0x07 %partfile% > nil && set PARTTYPE=[NTFS    ] && goto :part_ok
+cat --locate=0x83 %partfile% > nil && set PARTTYPE=[EXT2/3/4] && goto :part_ok
+cat --locate=0x0B %partfile% > nil && set PARTTYPE=[FAT32   ] && goto :part_ok
+cat --locate=0x82 %partfile% > nil && set PARTTYPE=[SWAP    ] && goto :part_ok
+:part_ok
+
+set OS=
+echo Probing OS on %root%
+# Windows 10 => Windows Technical Preview => "dows T" => "d.o.w.s. .T"
+if not exist %root%/boot/bcd goto :get_os1
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x54 %root%/boot/bcd > nil && set OS=Windows\ 10 && goto :os_ok
 # Windows 8 => "dows 8" => "d.o.w.s. .8"
-if not exist %root%/boot/bcd goto :os_ver1
-cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x38 %root%/boot/bcd > nil && set OS=Windows\ 8 && goto :os_found
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x38 %root%/boot/bcd > nil && set OS=Windows\ 8 && goto :os_ok
 # Windows 7 => "dows 7" => "d.o.w.s. .7"
-cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x37 %root%/boot/bcd > nil && set OS=Windows\ 7 && goto :os_found
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x37 %root%/boot/bcd > nil && set OS=Windows\ 7 && goto :os_ok
 # Windows Vista => "dows V" => "d.o.w.s. .V"
-cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x56 %root%/boot/bcd > nil && set OS=Windows\ Vista && goto :os_found
-:os_ver1
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x56 %root%/boot/bcd > nil && set OS=Windows\ Vista && goto :os_ok
+:get_os1
 # Windows NT/2000/XP
-if exist %root%/ntldr set OS=Windows\ NT/2000/XP && goto :os_found
+if exist %root%/ntldr set OS=Windows\ NT/2000/XP && goto :os_ok
 # Windows 6 or higher
-if exist %root%/bootmngr set OS=Windows\ 6\ or\ higher && goto :os_found
+if exist %root%/bootmngr set OS=Windows\ 6\ or\ higher && goto :os_ok
 # Linux with issue.net
 if exist %root%/etc/issue.net cat %root%/etc/issue.net | set OSVERSION=
-if not "%OSVERSION%"=="" set OS=%OSVERSION% && goto :os_found
+if not "%OSVERSION%"=="" set OS=%OSVERSION% && goto :os_ok
 # Linux generic
-if exist %root%/boot/grub/grub.cfg set OS=Linux && goto :os_found
-set OS=
-:os_found
+if exist %root%/boot/grub/grub.cfg set OS=Linux && goto :os_ok
+#unknown OS
+:os_ok
 goto :eof
