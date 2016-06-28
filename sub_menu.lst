@@ -15,14 +15,23 @@ configfile /grub/sysresccd/menu.lst
 savedefault
 
 title ================
+#----------------------------------------------------
+title Linux Mint 17.1 Mate
+set menu_lst=/Mint17.1_mate_install/menu.lst
+find --set-root --ignore-floppies --ignore-cd %menu_lst%
+configfile %menu_lst%
 
 #----------------------------------------------------
-title Linux Mint 17
-configfile /Mint17_install/menu.lst
+title Linux Mint 17.1 Cinnamon
+set menu_lst=/Mint17.1_cinnamon_install/menu.lst
+find --set-root --ignore-floppies --ignore-cd %menu_lst%
+configfile %menu_lst%
 
 #----------------------------------------------------
-title Linux Mint 13
-configfile /Mint13_install/menu.lst
+title Linux Mint 13 Mate
+set menu_lst=/Mint13_mate_install/menu.lst
+find --set-root --ignore-floppies --ignore-cd %menu_lst%
+configfile %menu_lst%
 
 #----------------------------------------------------
 title Ubuntu 14.04
