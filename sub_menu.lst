@@ -66,8 +66,8 @@ savedefault
 
 #----------------------------------------------------
 title Ghost
-find --set-root --ignore-floppies --ignore-cd /grub/img/GHOST.IMG
-map --mem /grub/img/GHOST.IMG (fd0)
+find --set-root --ignore-floppies --ignore-cd /grub/ghost/ghost.img
+map --mem /grub/ghost/ghost.img (fd0)
 map --hook
 chainloader (fd0)+1
 rootnoverify (fd0)
