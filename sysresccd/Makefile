@@ -9,6 +9,8 @@ install:
 	sh upgrade_iso.sh
 	sh extract.sh
 
+upgrade: install
+
 generate_backstore:
 	#need implement
 
@@ -16,4 +18,5 @@ clean:
 	rm -f systemrescuecd.iso.new
 
 distclean:
+	make clean
 	rm -rf systemrescuecd.iso version backstore.bs

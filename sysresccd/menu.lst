@@ -7,7 +7,7 @@ set cdpath=/grub/sysresccd
 
 color light-gray/black light-blue/black
 timeout 10
-default %cdpath%/menu.default
+default 1
 
 set skipsda=skipmount=/dev/sda1 skipmount=/dev/sda2 skipmount=/dev/sda3 skipmount=/dev/sda4 skipmount=/dev/sda5 skipmount=/dev/sda6 skipmount=/dev/sda7
 set bs=backstore=%cdpath%/backstore.bs
