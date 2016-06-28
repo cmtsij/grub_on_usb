@@ -70,8 +70,8 @@ savedefault
 
 #----------------------------------------------------
 title Acronis 2014
-find --set-root --ignore-floppies --ignore-cd /grub/Acronis/Acronis2014.iso
-map --mem /grub/Acronis/Acronis2014.iso (hd32)
+find --set-root --ignore-floppies --ignore-cd /grub/acronis/acronis2014.iso
+map --mem /grub/acronis/acronis2014.iso (hd32)
 map --hook
 chainloader (hd32)
 savedefault
