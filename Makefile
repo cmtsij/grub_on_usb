@@ -1,5 +1,5 @@
 GRUB4DOS_URL:=http://dl.grub4dos.chenall.net/
-GRUB4DOS_PACKAGE:=grub4dos-0.4.6a-2015-01-11.7z
+GRUB4DOS_PACKAGE:=grub4dos-0.4.6a-2015-02-17.7z
 
 all:
 	@echo "Usage:"
