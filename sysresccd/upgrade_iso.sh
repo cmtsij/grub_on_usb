@@ -5,7 +5,8 @@
 
 
 ## global setting
-iso_file="systemrescuecd.iso"
+#iso_file="systemrescuecd.iso
+iso_file="../../boot-isos/systemrescuecd.iso"
 new_iso_file="${iso_file}.new"
 source_link="http://www.sysresccd.org/Download"
 source_file="/tmp/.cachepage"

@@ -1,98 +1,104 @@
 #
 # ref http://www.sysresccd.org/Sysresccd-manual-en_How_to_install_SystemRescueCd_on_an_USB-stick#A.29_Recommended_USB_installation_method_from_Linux
 #
-
-set cdpath=/grub/sysresccd
-#find --set-root --ignore-floppies --ignore-cd %cdpath%/systemrescuecd.iso
-
 color light-gray/black light-blue/black
 timeout 10
 default 1
 
-set skipsda=skipmount=/dev/sda1 skipmount=/dev/sda2 skipmount=/dev/sda3 skipmount=/dev/sda4 skipmount=/dev/sda5 skipmount=/dev/sda6 skipmount=/dev/sda7
-set bs=backstore=%cdpath%/backstore.bs
+set isofile=/boot-isos/systemrescuecd.iso
+set skipsda=skipmount=/dev/sda1 skipmount=/dev/sda2 skipmount=/dev/sda3 skipmount=/dev/sda4 skipmount=/dev/sda5 skipmount=/dev/sda6 skipmount=/dev/sda7 skipmount=/dev/sda8
+set bs=backstore=%isofile%/backstore.bs
+
+find --set-root --ignore-floppies --ignore-cd %isofile%
+map %isofile% (hd32) || map --mem %isofile% (hd32)
+map --hook
+root (hd32)
+
+#####################################################
+title ==== SystemRescueCd (iso on USB) ====
+commandline
 
 #----------------------------------------------------
-title SystemRescueCd altker32 std-32bit (skip ISO on sda)
-kernel %cdpath%/iso/isolinux/altker32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd altker64 std-64bit
+kernel /isolinux/altker64 isoloop=%isofile% setkmap=us docache %skipsda% %bs_%
+initrd /isolinux/initram.igz
 
 #----------------------------------------------------
-title SystemRescueCd altker64 std-64bit (skip ISO on sda)
-kernel %cdpath%/iso/isolinux/altker64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd altker32 std-32bit
+kernel /isolinux/altker32 isoloop=%isofile% setkmap=us docache %skipsda% %bs_%
+initrd /isolinux/initram.igz
 
 #----------------------------------------------------
-title SystemRescueCd altker32 std-32bit (any ISO)
-kernel %cdpath%/iso/isolinux/altker32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd std-64bit
+kernel /isolinux/rescue64 isoloop=%isofile% setkmap=us docache %skipsda% %bs_%
+initrd /isolinux/initram.igz
 
 #----------------------------------------------------
-title SystemRescueCd altker64 std-64bit (any ISO)
-kernel %cdpath%/iso/isolinux/altker64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd std-32bit
+kernel /isolinux/rescue32 isoloop=%isofile% setkmap=us docache %skipsda% %bs_%
+initrd /isolinux/initram.igz
+
+#####################################################
+title ==== SystemRescueCd (iso on HD or USB) ====
+commandline
 
 #----------------------------------------------------
-title SystemRescueCd std-32bit (skip ISO on sda)
-kernel %cdpath%/iso/isolinux/rescue32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd altker64 std-64bit
+kernel /isolinux/altker64 isoloop=%isofile% setkmap=us docache %bs_%
+initrd /isolinux/initram.igz
 
 #----------------------------------------------------
-title SystemRescueCd std-64bit (skip ISO on sda)
-kernel %cdpath%/iso/isolinux/rescue64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd altker32 std-32bit
+kernel /isolinux/altker32 isoloop=%isofile% setkmap=us docache %bs_%
+initrd /isolinux/initram.igz
 
 #----------------------------------------------------
-title SystemRescueCd std-32bit (any ISO)
-kernel %cdpath%/iso/isolinux/rescue32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd std-64bit
+kernel /isolinux/rescue64 isoloop=%isofile% setkmap=us docache %bs_%
+initrd /isolinux/initram.igz
 
 #----------------------------------------------------
-title SystemRescueCd std-64bit (any ISO)
-kernel %cdpath%/iso/isolinux/rescue64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
+title SystemRescueCd std-32bit
+kernel /isolinux/rescue32 isoloop=%isofile% setkmap=us docache %bs_%
+initrd /isolinux/initram.igz
+
+#####################################################
+title ==== SystemRescueCd Other Tools ====
+commandline
 
 title MemTest+
-kernel %cdpath%/iso/isolinux/memtestp
-initrd %cdpath%/iso/isolinux/initrd.igz
+kernel /isolinux/memtestp
+initrd /isolinux/initrd.igz
 
 title NT Password Editor
-kernel %cdpath%/iso/ntpasswd/vmlinuz
-initrd %cdpath%/iso/ntpasswd/initrd.cgz
+kernel /ntpasswd/vmlinuz
+initrd /ntpasswd/initrd.cgz
 
 title Gag
-kernel %cdpath%/iso/isolinux/memdisk
-initrd %cdpath%/iso/bootdisk/gag.img
+kernel /isolinux/memdisk
+initrd /bootdisk/gag.img
 
 title MHDD
-kernel %cdpath%/iso/isolinux/memdisk
-initrd %cdpath%/iso/bootdisk/mhdd.img
+kernel /isolinux/memdisk
+initrd /bootdisk/mhdd.img
 
 title Hardware Detection Tool
-kernel %cdpath%/iso/isolinux/memdisk
-initrd %cdpath%/iso/bootdisk/hdt.img
+kernel /isolinux/memdisk
+initrd /bootdisk/hdt.img
 
 title Aida
-kernel %cdpath%/iso/isolinux/memdisk
-initrd %cdpath%/iso/bootdisk/aida.img
+kernel /isolinux/memdisk
+initrd /bootdisk/aida.img
 
 title Ranish Partition Manager
-kernel %cdpath%/iso/isolinux/memdisk
-initrd %cdpath%/iso/bootdisk/ranish.img
+kernel /isolinux/memdisk
+initrd /bootdisk/ranish.img
 
 title FreeDOS
-kernel %cdpath%/iso/isolinux/memdisk
-initrd %cdpath%/iso/bootdisk/freedos.img
-    
+kernel /isolinux/memdisk
+initrd /bootdisk/freedos.img
+
 title Back to Main Menu
-find --set-root --ignore-floppies --ignore-cd /grub/menu.lst 
+find --set-root --ignore-floppies --ignore-cd /grub/menu.lst
 configfile /grub/menu.lst
 
