@@ -1,0 +1,29 @@
+#
+# ref: http://manpages.ubuntu.com/manpages/lucid/man7/casper.7.html
+#
+
+#
+# global config
+#
+set basepath=/Mint17.1_cinnamon_install
+set iso_path=%basepath%/linuxmint-17.1-cinnamon-64bit.iso
+set kernel=%basepath%/iso/casper/vmlinuz
+set initrd=%basepath%/iso/casper/initrd.lz
+
+color white/black black/light-gray white/black
+timeout 10
+
+find --set-root --ignore-floppies --ignore-cd %iso_path%
+
+title Start Linux Mint 17.1 CINNAMON 64-bit
+set gfxpayload=keep
+kernel %kernel% file=/cdrom/preseed/linuxmint.seed boot=casper iso-scan/filename=%iso_path% quiet splash --
+initrd %initrd%
+
+title Start Linux Mint 17.1 CINNAMON 64-bit (compatibility mode)
+kernel %kernel% file=/cdrom/preseed/linuxmint.seed boot=casper xforcevesa iso-scan/filename=%iso_path% ramdisk_size=1048576 root=/dev/ram rw noapic noapci nosplash irqpoll --
+initrd %initrd%
+
+title Check the integrity of the medium
+kernel %kernel% boot=casper integrity-check iso-scan/filename=%iso_path% quiet splash --
+initrd %initrd%

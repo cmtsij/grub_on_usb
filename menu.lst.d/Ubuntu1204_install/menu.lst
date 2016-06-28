@@ -1,0 +1,13 @@
+# This is a sample menu.lst file. You should make some changes to it.
+# The old install method of booting via the stage-files has been removed.
+# Please install GRLDR boot strap code to MBR with the bootlace.com
+# utility under DOS/Win9x or Linux.
+
+color light-gray/blue light-blue/yellow dark-gray/blue
+timeout 10
+
+#----------------------------------------------------
+title Try Ubuntu without installing
+kernel /Ubuntu1204_install/iso/casper/vmlinuz file=/cdrom/preseed/ubuntu.seed noprompt boot=casper iso-scan/filename=/Ubuntu1204_install/ubuntu-12.04.1-desktop-amd64.iso quiet splash --
+initrd /Ubuntu1204_install/iso/casper/initrd.lz
+
