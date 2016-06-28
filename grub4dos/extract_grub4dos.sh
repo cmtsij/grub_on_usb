@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/sh
 
 set -e
 
@@ -13,4 +13,5 @@ new_grub4dos=$(7z t $bin_7z | grep ^Testing | sort | head -n 1 | awk '{print $2}
 7z x -y $bin_7z > /dev/null
 rm -rf grub4dos
 mv $new_grub4dos grub4dos
-mv $bin_7z grub4dos
+cp grub4dos/grldr ./
+
