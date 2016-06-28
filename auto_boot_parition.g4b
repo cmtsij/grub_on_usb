@@ -70,9 +70,11 @@ echo "Unknown partition type"      && set PARTTYPE=[------] && goto :part_ok
 
 set OS=
 echo Probing OS on %root%
-# Windows 10 => Windows Technical Preview => "dows T" => "d.o.w.s. .T"
 if not exist %root%/boot/bcd goto :get_os1
-cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x54 %root%/boot/bcd > nil && set OS=Windows\ 10 && goto :os_ok
+# Windows 10 => Windows 10 => "dows 1" => "d.o.w.s. .1"
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x31 %root%/boot/bcd > nil && set OS=Windows\ 10 && goto :os_ok
+# Windows 10(Beta) => Windows Technical Preview => "dows T" => "d.o.w.s. .T"
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x54 %root%/boot/bcd > nil && set OS=Windows\ 10\ Preview && goto :os_ok
 # Windows 8 => "dows 8" => "d.o.w.s. .8"
 cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x38 %root%/boot/bcd > nil && set OS=Windows\ 8 && goto :os_ok
 # Windows 7 => "dows 7" => "d.o.w.s. .7"
