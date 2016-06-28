@@ -1,0 +1,80 @@
+!BAT
+
+set findfile=(md)0x19000+0x4
+debug normal && find > %findfile%
+
+debug off
+set tempfile=(md)0x1A000+0x4
+
+echo root (bd) > %tempfile%
+echo color light-gray/blue light-blue/yellow dark-gray/blue >> %tempfile%
+echo timeout 10 >> %tempfile%
+echo default /grub/auto_boot_parition.default >> %tempfile%
+
+
+# for i in 0~2
+set i_begin=0
+set i_end=3
+set /a i=%i_begin%
+
+# for j in 0~8
+:loop_i
+set j_begin=0
+set j_end=9
+set /a j=%j_begin%
+
+:loop_j
+set root=(hd%i%,%j%)
+cat --locate=%root% %findfile% > nil || goto :skip_gen
+
+call :os_ver %root%
+echo title %root% - %OS% >> %tempfile%
+echo root %root%         >> %tempfile%
+echo chainloader +1      >> %tempfile%
+echo savedefault         >> %tempfile%
+
+:skip_gen
+set /a j=%j%+1
+if not "%j%"=="%j_end%" goto :loop_j
+
+set /a i=%i%+1
+if not "%i%"=="%i_end%" goto :loop_i
+
+echo title == Sub Menu ==                                             >> %tempfile%
+echo find --set-root --ignore-floppies --ignore-cd /grub/sub_menu.lst >> %tempfile%
+echo configfile /grub/sub_menu.lst                                    >> %tempfile%
+
+configfile %tempfile%
+goto :EOF
+
+#
+# sub function
+#
+
+##########################
+## get os_ver by (hdx,y)
+##########################
+:os_ver
+set root=%1
+set OS=
+
+# Windows 8 => "dows 8" => "d.o.w.s. .8"
+if not exist %root%/boot/bcd goto :os_ver1
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x38 %root%/boot/bcd > nil && set OS=Windows\ 8 && goto :os_found
+# Windows 7 => "dows 7" => "d.o.w.s. .7"
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x37 %root%/boot/bcd > nil && set OS=Windows\ 7 && goto :os_found
+# Windows Vista => "dows V" => "d.o.w.s. .V"
+cat --locate=\x64\x00\x6f\x00\x77\x00\x73\x00\x20\x00\x56 %root%/boot/bcd > nil && set OS=Windows\ Vista && goto :os_found
+:os_ver1
+# Windows NT/2000/XP
+if exist %root%/ntldr set OS=Windows\ NT/2000/XP && goto :os_found
+# Windows 6 or higher
+if exist %root%/bootmngr set OS=Windows\ 6\ or\ higher && goto :os_found
+# Linux with issue.net
+if exist %root%/etc/issue.net cat %root%/etc/issue.net | set OSVERSION=
+if not "%OSVERSION%"=="" set OS=%OSVERSION% && goto :os_found
+# Linux generic
+if exist %root%/boot/grub/grub.cfg set OS=Linux && goto :os_found
+set OS=
+:os_found
+goto :eof

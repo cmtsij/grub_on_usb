@@ -1,0 +1,20 @@
+# This is a sample menu.lst file. You should make some changes to it.
+# The old install method of booting via the stage-files has been removed.
+# Please install GRLDR boot strap code to MBR with the bootlace.com
+# utility under DOS/Win9x or Linux.
+
+color light-gray/blue light-blue/yellow dark-gray/blue
+timeout 1
+default 0
+
+#----------------------------------------------------
+title Auto Boot Parition
+find --set-root --ignore-floppies --ignore-cd /grub/auto_boot_parition.g4b
+/grub/auto_boot_parition.g4b
+configfile /grub/sub_menu.lst
+
+
+#----------------------------------------------------
+title == Sub Menu ==
+find --set-root --ignore-floppies --ignore-cd /grub/sub_menu.lst
+configfile /grub/sub_menu.lst

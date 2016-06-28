@@ -1,0 +1,112 @@
+# This is a sample menu.lst file. You should make some changes to it.
+# The old install method of booting via the stage-files has been removed.
+# Please install GRLDR boot strap code to MBR with the bootlace.com
+# utility under DOS/Win9x or Linux.
+
+color light-gray/blue light-blue/yellow dark-gray/blue
+timeout 10
+default /grub/sub_menu.default
+
+#----------------------------------------------------
+title Windows XP
+#fallback 2
+find --set-root --ignore-floppies --ignore-cd /ntldr
+map () (hd0)
+map (hd0) ()
+map --rehook
+find --set-root --ignore-floppies --ignore-cd /ntldr
+chainloader /ntldr
+savedefault 
+
+#----------------------------------------------------
+title Ubuntu 10.04
+#fallback 2
+find --set-root --ignore-floppies --ignore-cd /boot/grub/grub.cfg
+map () (hd0)
+map (hd0) ()
+map --rehook
+find --set-root --ignore-floppies --ignore-cd /boot/grub/grub.cfg
+chainloader +1
+savedefault
+
+#----------------------------------------------------
+title Windows 7
+#fallback 1
+find --set-root --ignore-floppies --ignore-cd /bootmgr
+map () (hd0)
+map (hd0) ()
+map --rehook
+find --set-root --ignore-floppies --ignore-cd /bootmgr
+chainloader /bootmgr
+savedefault
+
+#----------------------------------------------------
+title SystemRescueCD Menu
+#fallback 3
+find --set-root --ignore-floppies --ignore-cd /grub/sysresccd/menu.lst 
+configfile /grub/sysresccd/menu.lst
+savedefault
+
+
+#----------------------------------------------------
+title Acronis 2013
+find --set-root --ignore-floppies --ignore-cd /grub/Acronis/AcronisMedia.iso
+map --mem /grub/Acronis/AcronisMedia.iso (hd32)
+map --hook
+chainloader (hd32)
+savedefault
+
+
+#----------------------------------------------------
+title Ubuntu Install Menu
+#fallback 3
+find --set-root --ignore-floppies --ignore-cd /Ubuntu_install/menu.lst 
+configfile /Ubuntu_install/menu.lst 
+savedefault
+
+#----------------------------------------------------
+title Ghost
+find --set-root --ignore-floppies --ignore-cd /grub/img/GHOST.IMG
+map --mem /grub/img/GHOST.IMG (fd0)
+map --hook
+chainloader (fd0)+1
+rootnoverify (fd0)
+
+#----------------------------------------------------
+title Start BackTrack FrameBuffer (1024x768)
+find --set-root --ignore-floppies --ignore-cd /backtrack/bt4-r2.iso
+map --mem /backtrack/bt4-r2.iso (hd32)
+map --hook
+root (hd32)
+chainloader +1
+#kernel                /backtrack/boot/vmlinuz BOOT=casper boot=casper nopersistent rw quiet vga=0x317
+#initrd                /backtrack/boot/initrd.gz
+
+#----------------------------------------------------
+title ISO Sample
+#fallback 4
+find --set-root sysrcd.iso
+map sysrcd.iso (hd32) || map --mem sysrcd.iso (hd32)
+map --hook
+root (hd32)
+kernel /ISOLINUX/RESCUECD isoloop=dev/sda3/sysrcd.iso
+initrd /ISOLINUX/INITRAM.IGZ
+savedefault --wait=2
+
+#----------------------------------------------------
+title ================
+
+#----------------------------------------------------
+title COMMAND LINE
+commandline
+
+#----------------------------------------------------
+title REBOOT
+reboot
+
+#----------------------------------------------------
+title HALT
+halt
+
+#----------------------------------------------------
+

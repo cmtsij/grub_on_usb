@@ -1,0 +1,9 @@
+test with qemu in usb:
+	qemu-system-x86_64 -enable-kvm -m 1024 -usb /dev/sdb -net none
+
+
+
+link:
+	https://code.google.com/p/grubutils/
+	for: wee
+	     wenv
