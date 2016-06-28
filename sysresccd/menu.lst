@@ -1,0 +1,79 @@
+#
+# ref http://www.sysresccd.org/Sysresccd-manual-en_How_to_install_SystemRescueCd_on_an_USB-stick#A.29_Recommended_USB_installation_method_from_Linux
+#
+
+#color light-gray/blue light-blue/yellow dark-gray/blue
+color light-gray/black light-blue/black
+timeout 10
+default 0
+
+find --set-root --ignore-floppies --ignore-cd /grub/sysresccd/systemrescuecd.iso
+
+set cdpath=/grub/sysresccd
+set skipsda=skipmount=/dev/sda1 skipmount=/dev/sda2 skipmount=/dev/sda3 skipmount=/dev/sda4 skipmount=/dev/sda5 skipmount=/dev/sda6 skipmount=/dev/sda7
+set bs=backstore=/grub/sysresccd/backstore.bs
+
+#----------------------------------------------------
+title SystemRescueCd std-32bit (speed up) (use skipmount if trouble)
+kernel %cdpath%/iso/isolinux/rescue32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
+initrd %cdpath%/iso/isolinux/initram.igz
+
+#----------------------------------------------------
+title SystemRescueCd std-64bit (speed up) (use skipmount if trouble)
+kernel %cdpath%/iso/isolinux/rescue64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
+initrd %cdpath%/iso/isolinux/initram.igz
+
+
+title ==== ===== Traditional ==== =====
+map /grub/sysresccd/systemrescuecd.iso (0xff) || map --mem /grub/sysresccd/systemrescuecd.iso (0xff)
+map --hook 
+root (0xff)
+echo
+
+title SystemRescueCd alt-32bit
+kernel /grub/sysresccd/iso/isolinux/altker32 subdir=/grub/sysresccd/iso setkmap=us docache
+initrd /grub/sysresccd/iso/isolinux/initram.igz
+
+title SystemRescueCd alt-64bit
+kernel /grub/sysresccd/iso/isolinux/altker64 subdir=/grub/sysresccd/iso setkmap=us docache
+initrd /grub/sysresccd/iso/isolinux/initram.igz
+
+title MemTest+
+kernel /grub/sysresccd/iso/isolinux/memtestp
+initrd /grub/sysresccd/iso/isolinux/initrd.igz
+
+title NT Password Editor
+kernel /grub/sysresccd/iso/ntpasswd/vmlinuz
+initrd /grub/sysresccd/iso/ntpasswd/initrd.cgz
+
+title Gag
+kernel /grub/sysresccd/iso/isolinux/memdisk
+initrd /grub/sysresccd/iso/bootdisk/gag.img
+
+title MHDD
+kernel /grub/sysresccd/iso/isolinux/memdisk
+initrd /grub/sysresccd/iso/bootdisk/mhdd.img
+
+title Hardware Detection Tool
+kernel /grub/sysresccd/iso/isolinux/memdisk
+initrd /grub/sysresccd/iso/bootdisk/hdt.img
+
+title Aida
+kernel /grub/sysresccd/iso/isolinux/memdisk
+initrd /grub/sysresccd/iso/bootdisk/aida.img
+
+title Ranish Partition Manager
+kernel /grub/sysresccd/iso/isolinux/memdisk
+initrd /grub/sysresccd/iso/bootdisk/ranish.img
+
+title FreeDOS
+kernel /grub/sysresccd/iso/isolinux/memdisk
+initrd /grub/sysresccd/iso/bootdisk/freedos.img
+    
+title Back to Main Menu
+errorcheck off
+find --set-root --ignore-floppies --ignore-cd /grub/menu.lst 
+configfile /grub/menu.lst
+errorcheck on
+
+
