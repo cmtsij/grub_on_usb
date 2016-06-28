@@ -13,30 +13,6 @@ set skipsda=skipmount=/dev/sda1 skipmount=/dev/sda2 skipmount=/dev/sda3 skipmoun
 set bs=backstore=%cdpath%/backstore.bs
 
 #----------------------------------------------------
-title SystemRescueCd std-32bit (skip ISO on sda)
-kernel %cdpath%/iso/isolinux/rescue32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
-
-#----------------------------------------------------
-title SystemRescueCd std-64bit (skip ISO on sda)
-kernel %cdpath%/iso/isolinux/rescue64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
-
-#----------------------------------------------------
-title SystemRescueCd std-32bit (any ISO)
-kernel %cdpath%/iso/isolinux/rescue32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
-
-#----------------------------------------------------
-title SystemRescueCd std-64bit (any ISO)
-kernel %cdpath%/iso/isolinux/rescue64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
-initrd %cdpath%/iso/isolinux/initram.igz
-savedefault
-
-#----------------------------------------------------
 title SystemRescueCd altker32 std-32bit (skip ISO on sda)
 kernel %cdpath%/iso/isolinux/altker32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
 initrd %cdpath%/iso/isolinux/initram.igz
@@ -57,6 +33,30 @@ savedefault
 #----------------------------------------------------
 title SystemRescueCd altker64 std-64bit (any ISO)
 kernel %cdpath%/iso/isolinux/altker64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
+initrd %cdpath%/iso/isolinux/initram.igz
+savedefault
+
+#----------------------------------------------------
+title SystemRescueCd std-32bit (skip ISO on sda)
+kernel %cdpath%/iso/isolinux/rescue32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
+initrd %cdpath%/iso/isolinux/initram.igz
+savedefault
+
+#----------------------------------------------------
+title SystemRescueCd std-64bit (skip ISO on sda)
+kernel %cdpath%/iso/isolinux/rescue64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %skipsda% %bs_%
+initrd %cdpath%/iso/isolinux/initram.igz
+savedefault
+
+#----------------------------------------------------
+title SystemRescueCd std-32bit (any ISO)
+kernel %cdpath%/iso/isolinux/rescue32 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
+initrd %cdpath%/iso/isolinux/initram.igz
+savedefault
+
+#----------------------------------------------------
+title SystemRescueCd std-64bit (any ISO)
+kernel %cdpath%/iso/isolinux/rescue64 isoloop=%cdpath%/systemrescuecd.iso setkmap=us docache %bs_%
 initrd %cdpath%/iso/isolinux/initram.igz
 savedefault
 
