@@ -1,8 +1,8 @@
 #!/bin/sh
 device=${1:-/dev/sda}
 
-read -n 1 -p "Device is \"$device?\" [y/n]: " prompt
-echo
+printf "Device is \"$device?\" [y/n]: "
+read prompt
 
 SUDO=$(which sudo)
 
