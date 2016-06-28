@@ -39,9 +39,11 @@ fi
 ## download iso image to tmpfile
 echo "Using Download url=[$iso_link]"
 echo "Download to [$new_iso_file]"
-wget --progress=bar:force -v -c -O $new_iso_file $iso_link 2>&1 | api_progressfilt
+#wget --progress=bar:force -v -c -O $new_iso_file $iso_link 2>&1 | api_progressfilt
+wget -c -O $new_iso_file $iso_link
 
 ## check md5sum
+echo "checking md5sum of [$new_iso_file]"
 md5=$(md5sum "$new_iso_file" | cut -d " " -f 1)
 echo "MD5=$md5 "
 echo -n "Verify ISO image with md5sum"
