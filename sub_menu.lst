@@ -14,6 +14,25 @@ find --set-root --ignore-floppies --ignore-cd /grub/sysresccd/menu.lst
 configfile /grub/sysresccd/menu.lst
 savedefault
 
+title ================
+
+#----------------------------------------------------
+title Linux Mint 17
+configfile /Mint17_install/menu.lst
+
+#----------------------------------------------------
+title Linux Mint 13
+configfile /Mint13_install/menu.lst
+
+#----------------------------------------------------
+title Ubuntu 14.04
+configfile /Ubuntu1404_install/menu.lst
+
+#----------------------------------------------------
+title Ubuntu 12.04
+configfile /Ubuntu1204_install/menu.lst
+
+title ================
 
 #----------------------------------------------------
 title Windows XP
@@ -50,20 +69,14 @@ savedefault
 
 
 #----------------------------------------------------
-title Acronis 2013
-find --set-root --ignore-floppies --ignore-cd /grub/Acronis/AcronisMedia.iso
-map --mem /grub/Acronis/AcronisMedia.iso (hd32)
+title Acronis 2014
+find --set-root --ignore-floppies --ignore-cd /grub/Acronis/Acronis2014.iso
+map --mem /grub/Acronis/Acronis2014.iso (hd32)
 map --hook
 chainloader (hd32)
 savedefault
 
-
-#----------------------------------------------------
-title Ubuntu Install Menu
-#fallback 3
-find --set-root --ignore-floppies --ignore-cd /Ubuntu_install/menu.lst
-configfile /Ubuntu_install/menu.lst
-savedefault
+title ==== ==== ==== ====
 
 #----------------------------------------------------
 title Ghost
