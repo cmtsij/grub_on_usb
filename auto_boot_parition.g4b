@@ -57,14 +57,15 @@ goto :EOF
 :get_os
 set root=%1
 
-set PARTTYPE=[        ]
 echo Probing PARTTYPE on %root%
 set partfile=(md)0x1B000+0x4
+set PARTTYPE=
 debug normal && parttype %root% > %partfile% && debug off
-cat --locate=0x07 %partfile% > nil && set PARTTYPE=[NTFS    ] && goto :part_ok
-cat --locate=0x83 %partfile% > nil && set PARTTYPE=[EXT2/3/4] && goto :part_ok
-cat --locate=0x0B %partfile% > nil && set PARTTYPE=[FAT32   ] && goto :part_ok
-cat --locate=0x82 %partfile% > nil && set PARTTYPE=[SWAP    ] && goto :part_ok
+cat --locate=0x07 %partfile% > nil && set PARTTYPE=[NTFS  ] && goto :part_ok
+cat --locate=0x83 %partfile% > nil && set PARTTYPE=[EXT2FS] && goto :part_ok
+cat --locate=0x0B %partfile% > nil && set PARTTYPE=[FAT32 ] && goto :part_ok
+cat --locate=0x82 %partfile% > nil && set PARTTYPE=[SWAP  ] && goto :part_ok
+echo "Unknown partition type"      && set PARTTYPE=[------] && goto :part_ok
 :part_ok
 
 set OS=
