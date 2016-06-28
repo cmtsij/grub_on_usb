@@ -5,14 +5,13 @@
 
 color light-gray/blue light-blue/yellow dark-gray/blue
 timeout 1
-default /grub/menu.default
+default 0
 
 #----------------------------------------------------
 title Auto Boot Parition
 find --set-root --ignore-floppies --ignore-cd /grub/auto_boot_parition.g4b
 /grub/auto_boot_parition.g4b
 configfile /grub/sub_menu.lst
-
 
 #----------------------------------------------------
 title == Sub Menu ==
