@@ -5,7 +5,7 @@
 
 color light-gray/blue light-blue/yellow dark-gray/blue
 timeout 1
-default 0
+default /grub/menu.default
 
 #----------------------------------------------------
 title Auto Boot Parition
