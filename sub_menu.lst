@@ -14,68 +14,15 @@ find --set-root --ignore-floppies --ignore-cd /grub/sysresccd/menu.lst
 configfile /grub/sysresccd/menu.lst
 savedefault
 
-title ================
 #----------------------------------------------------
-title Linux Mint 17.1 Mate
-set menu_lst=/Mint17.1_mate_install/menu.lst
-find --set-root --ignore-floppies --ignore-cd %menu_lst%
-configfile %menu_lst%
-
-#----------------------------------------------------
-title Linux Mint 17.1 Cinnamon
-set menu_lst=/Mint17.1_cinnamon_install/menu.lst
-find --set-root --ignore-floppies --ignore-cd %menu_lst%
-configfile %menu_lst%
-
-#----------------------------------------------------
-title Linux Mint 13 Mate
-set menu_lst=/Mint13_mate_install/menu.lst
-find --set-root --ignore-floppies --ignore-cd %menu_lst%
-configfile %menu_lst%
-
-#----------------------------------------------------
-title Ubuntu 14.04
-configfile /Ubuntu1404_install/menu.lst
-
-#----------------------------------------------------
-title Ubuntu 12.04
-configfile /Ubuntu1204_install/menu.lst
-
-title ================
-
-#----------------------------------------------------
-title Windows XP
-#fallback 2
-find --set-root --ignore-floppies --ignore-cd /ntldr
-map () (hd0)
-map (hd0) ()
-map --rehook
-find --set-root --ignore-floppies --ignore-cd /ntldr
-chainloader /ntldr
+title Super Grub2 Disk Menu
+#fallback 3
+set isofile=super_grub2_disk_hybrid_2.00s2.iso
+find --set-root --ignore-floppies --ignore-cd /boot-isos/%isofile%
+map /boot-isos/%isofile% (hd32) || map --mem /boot-isos/%isofile% (hd32)
+map --hook
+chainloader (hd32)
 savedefault
-
-#----------------------------------------------------
-title Ubuntu 10.04
-#fallback 2
-find --set-root --ignore-floppies --ignore-cd /boot/grub/grub.cfg
-map () (hd0)
-map (hd0) ()
-map --rehook
-find --set-root --ignore-floppies --ignore-cd /boot/grub/grub.cfg
-chainloader +1
-savedefault
-
-#----------------------------------------------------
-title Windows 7
-#fallback 1
-find --set-root --ignore-floppies --ignore-cd /bootmgr
-map () (hd0)
-map (hd0) ()
-map --rehook
-find --set-root --ignore-floppies --ignore-cd /bootmgr
-chainloader /bootmgr
-savedefault
-
 
 #----------------------------------------------------
 title Acronis 2014
@@ -85,8 +32,6 @@ map --hook
 chainloader (hd32)
 savedefault
 
-title ==== ==== ==== ====
-
 #----------------------------------------------------
 title Ghost
 find --set-root --ignore-floppies --ignore-cd /grub/ghost/ghost.img
@@ -94,30 +39,6 @@ map --mem /grub/ghost/ghost.img (fd0)
 map --hook
 chainloader (fd0)+1
 rootnoverify (fd0)
-
-#----------------------------------------------------
-title Start BackTrack FrameBuffer (1024x768)
-find --set-root --ignore-floppies --ignore-cd /backtrack/bt4-r2.iso
-map --mem /backtrack/bt4-r2.iso (hd32)
-map --hook
-root (hd32)
-chainloader +1
-#kernel                /backtrack/boot/vmlinuz BOOT=casper boot=casper nopersistent rw quiet vga=0x317
-#initrd                /backtrack/boot/initrd.gz
-
-#----------------------------------------------------
-title ISO Sample
-#fallback 4
-find --set-root sysrcd.iso
-map sysrcd.iso (hd32) || map --mem sysrcd.iso (hd32)
-map --hook
-root (hd32)
-kernel /ISOLINUX/RESCUECD isoloop=dev/sda3/sysrcd.iso
-initrd /ISOLINUX/INITRAM.IGZ
-savedefault --wait=2
-
-#----------------------------------------------------
-title ================
 
 #----------------------------------------------------
 title COMMAND LINE
