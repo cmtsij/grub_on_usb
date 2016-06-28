@@ -1,9 +1,9 @@
-test with qemu in usb:
+grub4dos:
+	source: https://github.com/chenall/grub4dos
+	download: http://grub4dos.chenall.net/
+	old site(deprecated): https://code.google.com/p/grub4dos-chenall/
+
+
+Test grub4dos in usb by Qemu:
 	qemu-system-x86_64 -enable-kvm -m 1024 -usb /dev/sdb -net none
 
-
-
-link:
-	https://code.google.com/p/grubutils/
-	for: wee
-	     wenv
