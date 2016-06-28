@@ -1,5 +1,6 @@
 GRUBUTILS_DIR=grubutils
 GRUBUTILS_REV=115
+GRUBUTILS_SVN=http://$(GRUBUTILS_DIR).googlecode.com/svn/$(GRUBUTILS_DIR)
 
 WEESETUP_URL:=https://grubutils.googlecode.com/files
 WEESETUP_PACKAGE:=weesetup-2013-09-25.zip
@@ -17,7 +18,7 @@ $(GRUBUTILS_DIR)_build:
 	# clean last one
 	rm -rf $(GRUBUTILS_DIR)
 	# download
-	git svn clone -r $(GRUBUTILS_REV) --preserve-empty-dirs "http://$(GRUBUTILS_DIR).googlecode.com/svn/$(GRUBUTILS_DIR)"
+	git svn clone -r $(GRUBUTILS_REV) --preserve-empty-dirs "$(GRUBUTILS_SVN)"
 	# patch
 	for file in patches/*; do cat $$file | (cd $(GRUBUTILS_DIR) && git am -k); done
 	mv $(GRUBUTILS_DIR) $@
