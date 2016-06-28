@@ -20,3 +20,4 @@ clean:
 distclean:
 	make clean
 	rm -rf systemrescuecd.iso version backstore.bs
+	rm -rf iso
