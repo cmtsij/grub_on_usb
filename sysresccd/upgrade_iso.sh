@@ -3,10 +3,13 @@
 #include api
 . ./.upgrade_iso.api
 
+set -e
 
 ## global setting
 #iso_file="systemrescuecd.iso
 iso_file="$1"
+
+mkdir -p $(dirname $iso_file)
 
 new_iso_file="${iso_file}.new"
 source_link="http://www.sysresccd.org/Download"
@@ -29,13 +32,15 @@ new_iso_version="$(echo $iso_link | grep -o '[0-9]\+\.[0-9\.]\+' | head -n 1)"
 echo "New ISO version: $new_iso_version" 
 
 ## Get old iso version
-iso_version=$(cat version)
-echo "Current ISO version: $iso_version"
 
 ## check iso version
-if [ "$iso_version" = "$new_iso_version" ]; then
-	echo "Same version, skip upgrade"
-	exit
+if [ -f version ]; then
+	iso_version=$(cat version 2>/dev/null)
+	echo "Current ISO version: $iso_version"
+	if [ "$iso_version" = "$new_iso_version" ]; then
+		echo "Same version, skip upgrade"
+		exit
+	fi
 fi
 
 ## download iso image to tmpfile
