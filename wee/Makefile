@@ -29,7 +29,6 @@ build_linux: $(GRUBUTILS_DIR)/.git/.cloned
 	make -C $(GRUBUTILS_DIR)/grubutils/wee
 	make -C $(GRUBUTILS_DIR)/grubutils/weesetup clean
 	make -C $(GRUBUTILS_DIR)/grubutils/weesetup
-	make -C $(GRUBUTILS_DIR)/grubutils/grubinst
 
 build_windows: $(GRUBUTILS_DIR)/.git/.cloned
 	@x86_64-w64-mingw32-gcc -v >/dev/null 2>&1 || (printf "Error: Please install missing package:\n\tapt-get install mingw-w64\n" && exit 1)
@@ -41,8 +40,6 @@ install_linux: build_linux
 	mkdir -p bin
 	cp $(GRUBUTILS_DIR)/grubutils/wee/wee{63,127}.mbr bin/
 	cp $(GRUBUTILS_DIR)/grubutils/weesetup/weesetup bin/
-	cp $(GRUBUTILS_DIR)/grubutils/grubinst/grubinst bin/
-	cp $(GRUBUTILS_DIR)/grubutils/grubinst/grubmenu bin/
 
 
 install_windows: build_windows
