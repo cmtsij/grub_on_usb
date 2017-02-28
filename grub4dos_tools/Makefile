@@ -7,6 +7,14 @@ BOOTICE_x64=BOOTICEx64_v1.332.rar
 BOOTICE_x86_URL=https://github.com/cmtsij/grub_on_usb_mirror/raw/master/bootice/$(BOOTICE_x86)
 BOOTICE_x64_URL=https://github.com/cmtsij/grub_on_usb_mirror/raw/master/bootice/$(BOOTICE_x64)
 
+all:
+	@echo "Usage:"
+	@echo "make install      # downlaod and install bootice"
+	@echo "make clean        # clean installed bootice"
+
+install: 	bootice_install
+clean:	bootice_clean
+
 bootice_install:
 	wget -q -N $(BOOTICE_x86_URL) -O $(BOOTICE_x86)
 	wget -q -N $(BOOTICE_x64_URL) -O $(BOOTICE_x64)
